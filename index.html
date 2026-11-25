@@ -6,8 +6,11 @@
     <title>CHYV Medical — Plataforma de Salud Digital e Inteligencia Médica</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Librería para generar PDF clínico real -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
 
@@ -33,7 +36,7 @@
     </header>
 
     <!-- Navegación por Pestañas -->
-    <nav class="bg-white border-b border-slate-200 flex overflow-x-auto px-2 py-2 space-x-1 shadow-sm sticky top-[57px] z-40">
+    <nav class="bg-white border-b border-slate-200 flex overflow-x-auto no-scrollbar px-2 py-2 space-x-1 shadow-sm sticky top-[57px] z-40">
         <button onclick="switchTab('home')" id="tab-home" class="tab-btn flex items-center space-x-1 px-3 py-2 rounded-lg text-xs font-semibold whitespace-nowrap bg-blue-600 text-white shadow-md">
             <i data-lucide="home" class="w-4 h-4"></i>
             <span>Inicio</span>
@@ -44,11 +47,11 @@
         </button>
         <button onclick="switchTab('govi')" id="tab-govi" class="tab-btn flex items-center space-x-1 px-3 py-2 rounded-lg text-xs font-semibold whitespace-nowrap text-slate-600 hover:bg-slate-100 relative">
             <i data-lucide="bot" class="w-4 h-4 text-teal-600"></i>
-            <span class="text-teal-700 font-bold">GOVI IA</span>
-            <span class="absolute -top-1 -right-1 w-2 h-2 bg-teal-500 rounded-full animate-ping"></span>
+            <span class="font-bold">GOVI IA</span>
+            <span class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-teal-500 rounded-full animate-ping"></span>
         </button>
         <button onclick="switchTab('maternidad')" id="tab-maternidad" class="tab-btn flex items-center space-x-1 px-3 py-2 rounded-lg text-xs font-semibold whitespace-nowrap text-slate-600 hover:bg-slate-100">
-            <i data-lucide="baby" class="w-4 h-4 text-pink-600"></i>
+            <i data-lucide="baby" class="w-4 h-4 text-rose-500"></i>
             <span>Embarazo & Ciclo</span>
         </button>
         <button onclick="switchTab('vitals')" id="tab-vitals" class="tab-btn flex items-center space-x-1 px-3 py-2 rounded-lg text-xs font-semibold whitespace-nowrap text-slate-600 hover:bg-slate-100">
@@ -72,29 +75,37 @@
                 <p class="text-xs text-blue-100 leading-relaxed">Monitoreo biométrico real de cadencia y fuerza, control de signos vitales, fertilidad, embarazo y asistencia médica virtual con GOVI.</p>
                 <button onclick="switchTab('govi')" class="bg-white text-blue-700 text-xs font-bold px-4 py-2.5 rounded-xl shadow-md hover:bg-blue-50 transition flex items-center space-x-2">
                     <i data-lucide="bot" class="w-4 h-4 text-teal-600"></i>
-                    <span>Abrir Asistente GOVI IA</span>
+                    <span>Consultar a GOVI Asistente Virtual</span>
                 </button>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
-                <div onclick="switchTab('esfera')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm cursor-pointer hover:border-blue-400 transition space-y-2">
+                <div onclick="switchTab('maternidad')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm cursor-pointer hover:border-rose-400 transition space-y-2">
+                    <div class="bg-rose-50 text-rose-500 p-2.5 rounded-xl w-fit">
+                        <i data-lucide="baby" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-xs font-bold text-slate-800">Embarazo & Ciclo</h3>
+                    <p class="text-[11px] text-slate-500">Seguimiento semanal, días fértiles, síntomas y consejos diarios.</p>
+                </div>
+                <div onclick="switchTab('vitals')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm cursor-pointer hover:border-blue-400 transition space-y-2">
                     <div class="bg-blue-50 text-blue-600 p-2.5 rounded-xl w-fit">
-                        <i data-lucide="activity" class="w-5 h-5"></i>
+                        <i data-lucide="heart-pulse" class="w-5 h-5"></i>
                     </div>
-                    <h3 class="text-xs font-bold text-slate-800">Esfera Biométrica</h3>
-                    <p class="text-[11px] text-slate-500">Detecta velocidad (TPM), pausas y fuerza táctil en tiempo real.</p>
+                    <h3 class="text-xs font-bold text-slate-800">Signos & Pulso</h3>
+                    <p class="text-[11px] text-slate-500">Registra tus signos para que GOVI personalice tus respuestas.</p>
                 </div>
-                <div onclick="switchTab('expediente')" class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm cursor-pointer hover:border-indigo-400 transition space-y-2">
-                    <div class="bg-indigo-50 text-indigo-600 p-2.5 rounded-xl w-fit">
-                        <i data-lucide="file-down" class="w-5 h-5"></i>
-                    </div>
-                    <h3 class="text-xs font-bold text-slate-800">Reporte Médico PDF</h3>
-                    <p class="text-[11px] text-slate-500">Genera expedientes explicativos listos para tu especialista.</p>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                <div class="flex items-center space-x-2 text-slate-800 font-bold text-xs">
+                    <i data-lucide="shield-check" class="w-4 h-4 text-teal-600"></i>
+                    <span>Compromiso Médico y Ético</span>
                 </div>
+                <p class="text-[11px] text-slate-500 leading-relaxed">CHYV Medical brinda orientación informativa estructurada y herramientas de seguimiento personal. Nunca reemplaza la valoración de un médico titulado.</p>
             </div>
         </section>
 
-        <!-- VISTA: ESFERA BIOMÉTRICA DE ALTA SENSIBILIDAD -->
+        <!-- VISTA: ESFERA BIOMÉTRICA -->
         <section id="view-esfera" class="view-section space-y-4 hidden">
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-2">
                 <div class="flex justify-between items-center text-xs font-semibold text-slate-700">
@@ -113,15 +124,14 @@
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center relative min-h-[320px]">
                 <div id="pause-screen" class="absolute inset-0 bg-red-950/95 rounded-2xl flex flex-col items-center justify-center text-white p-6 z-20 hidden animate-pulse">
                     <i data-lucide="alert-triangle" class="w-12 h-12 text-red-400 mb-2"></i>
-                    <h3 class="text-base font-bold">¡Alerta Crítica / Agitación Detectada!</h3>
-                    <p class="text-xs text-red-200 text-center mt-1">Se detectó velocidad extrema o impacto fuerte. Pausa obligatoria.</p>
+                    <h3 class="text-base font-bold">¡Alerta de Tensión Elevada!</h3>
+                    <p class="text-xs text-red-200 text-center mt-1">Se detectó velocidad extrema o impacto fuerte. Pausa activa.</p>
                     <div id="timer-display" class="text-4xl font-extrabold my-4 text-white bg-red-900 px-6 py-2 rounded-full border border-red-700">
                         10s
                     </div>
                     <p class="text-xs text-slate-300 italic">Inhala hondo... exhala lento.</p>
                 </div>
 
-                <!-- Orbe con soporte táctil nativo para medir presión/área -->
                 <div id="orb" ontouchstart="handleOrbTouch(event)" onmousedown="handleOrbMouse(event)" class="w-48 h-48 rounded-full flex flex-col items-center justify-center cursor-pointer shadow-xl transition-all duration-150 active:scale-95 bg-gradient-to-br from-cyan-500 to-blue-600 shadow-blue-400/50 select-none">
                     <span id="orb-title" class="text-white font-bold text-base text-center px-4">Iniciar Sesión</span>
                     <span id="orb-subtitle" class="text-white/80 text-xs mt-1">Pulsa aquí para medir</span>
@@ -158,7 +168,7 @@
             </div>
         </section>
 
-        <!-- VISTA: GOVI ASISTENTE MÉDICO VIRTUAL (IA ESTILO 911) -->
+        <!-- VISTA: GOVI — TU ASISTENTE MÉDICO VIRTUAL -->
         <section id="view-govi" class="view-section space-y-4 hidden">
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
                 <div class="flex items-center space-x-3 border-b border-slate-100 pb-3">
@@ -166,35 +176,45 @@
                         <i data-lucide="bot" class="w-6 h-6"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-slate-900">GOVI — Asistente Médico de Urgencia IA</h3>
+                        <h3 class="text-sm font-bold text-slate-900">GOVI — Tu Asistente Médico Virtual</h3>
                         <p class="text-[11px] text-teal-600 font-medium flex items-center space-x-1">
                             <span class="w-2 h-2 bg-teal-500 rounded-full inline-block"></span>
-                            <span>Protocolo Activo 911 · Respuestas de Acción Inmediata</span>
+                            <span>En línea · Orientación Clínica, Síntomas y Fármacos</span>
                         </p>
                     </div>
                 </div>
 
+                <!-- Recuadro de Sugerencia Inteligente vinculada a Signos Vitales -->
+                <div id="govi-vitals-tip" class="bg-indigo-50 border border-indigo-200 p-3 rounded-xl flex items-start space-x-2.5">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600 shrink-0 mt-0.5"></i>
+                    <div class="text-[11px] text-indigo-900 leading-relaxed" id="govi-vitals-tip-text">
+                        <strong>Sugerencia de GOVI:</strong> Si registras manualmente tu presión arterial y temperatura, y mides tu ritmo cardíaco en <em>Signos & Pulso</em>, podré darte respuestas mucho más personalizadas según tu estado actual.
+                    </div>
+                </div>
+
+                <!-- Consultas Frecuentes Generales -->
                 <div class="space-y-1.5">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Consultas de Emergencia Sugeridas:</p>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Consultas Frecuentes:</p>
                     <div class="grid grid-cols-1 gap-1.5">
-                        <button onclick="askGovi('Hola, me tomé 2 pastillas de tadalafil de 100 gramos y estoy con tratamiento para la hipertensión')" class="text-left text-xs bg-red-50 hover:bg-red-100 text-red-900 p-2 rounded-xl border border-red-200 transition font-medium">
-                            🚨 Sobredosis Tadalafil + Hipertensión
+                        <button onclick="askGovi('Si me duele la cabeza, ¿qué debo tomar?')" class="text-left text-xs bg-slate-50 hover:bg-teal-50 text-slate-700 hover:text-teal-900 p-2.5 rounded-xl border border-slate-200 transition">
+                            🤕 Si me duele la cabeza, ¿qué debo tomar?
                         </button>
-                        <button onclick="askGovi('Tengo dolor de cabeza intenso y fuerte agitación en el pecho')" class="text-left text-xs bg-amber-50 hover:bg-amber-100 text-amber-900 p-2 rounded-xl border border-amber-200 transition font-medium">
-                            ⚡ Dolor de cabeza y agitación en el pecho
+                        <button onclick="askGovi('Tengo tres días con tos y dolor de garganta, ¿qué puedo tomar?')" class="text-left text-xs bg-slate-50 hover:bg-teal-50 text-slate-700 hover:text-teal-900 p-2.5 rounded-xl border border-slate-200 transition">
+                            🤒 Tengo tres días con tos y dolor de garganta, ¿qué puedo tomar?
                         </button>
-                        <button onclick="askGovi('¿Puedo tomar Clonazepam en el embarazo?')" class="text-left text-xs bg-slate-50 hover:bg-teal-50 text-slate-700 p-2 rounded-xl border border-slate-200 transition">
-                            💊 ¿Puedo tomar Clonazepam en el embarazo?
+                        <button onclick="askGovi('¿Qué puedo tomar para la acidez o el ardor de estómago?')" class="text-left text-xs bg-slate-50 hover:bg-teal-50 text-slate-700 hover:text-teal-900 p-2.5 rounded-xl border border-slate-200 transition">
+                            🤢 ¿Qué puedo tomar para la acidez o el ardor de estómago?
                         </button>
                     </div>
                 </div>
 
-                <div id="govi-chat-box" class="bg-slate-50 border border-slate-200 p-3 rounded-xl min-h-[140px] max-h-[240px] overflow-y-auto text-xs text-slate-700 space-y-2">
-                    <p class="italic text-slate-400">Hola, soy GOVI. Ante situaciones críticas te daré pautas de acción inmediata estilo 911 con responsabilidad clínica. Escribe tu síntoma o consulta.</p>
+                <!-- Caja de Chat / Respuesta Detallada -->
+                <div id="govi-chat-box" class="bg-slate-50 border border-slate-200 p-3 rounded-xl min-h-[160px] max-h-[340px] overflow-y-auto text-xs text-slate-700 space-y-3">
+                    <p class="italic text-slate-400">Hola, soy GOVI, tu asistente médico virtual. Pregúntame sobre síntomas, medicamentos, dosis orientativas o cuidados generales. Te responderé de forma clara y estructurada.</p>
                 </div>
 
                 <div class="flex space-x-2">
-                    <input type="text" id="govi-input" placeholder="Escribe tu síntoma o emergencia aquí..." class="flex-1 p-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:border-teal-500">
+                    <input type="text" id="govi-input" onkeypress="if(event.key==='Enter') sendGoviMessage()" placeholder="Escribe tu consulta médica aquí..." class="flex-1 p-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:border-teal-500">
                     <button onclick="sendGoviMessage()" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-md transition">
                         Enviar
                     </button>
@@ -202,33 +222,134 @@
             </div>
         </section>
 
-        <!-- VISTA: EMBARAZO, FERTILIDAD & CICLO MENSTRUAL -->
+        <!-- VISTA: EMBARAZO & CICLO (DISEÑO INSPIRADO EN FLO) -->
         <section id="view-maternidad" class="view-section space-y-4 hidden">
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-                <div class="flex items-center space-x-2 text-pink-700 font-bold text-xs">
-                    <i data-lucide="baby" class="w-5 h-5"></i>
-                    <span>Control de Fertilidad, Ciclo y Maternidad</span>
+            
+            <!-- Selector de Objetivo tipo Flo -->
+            <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-3">
+                <div class="text-center">
+                    <h3 class="text-sm font-bold text-slate-900">¿En qué te podemos ayudar?</h3>
+                    <p class="text-[11px] text-slate-500">Selecciona tu modo de seguimiento personal</p>
                 </div>
-                <p class="text-[11px] text-slate-500">Registra tus fechas de periodo, días de relaciones sexuales y calcula tus días de mayor fertilidad o semanas gestacionales.</p>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="text-[11px] font-medium text-slate-600">Último Periodo (FUM)</label>
-                        <input type="date" id="mat-fum" class="w-full mt-1 p-2 text-xs border border-slate-200 rounded-xl">
-                    </div>
-                    <div>
-                        <label class="text-[11px] font-medium text-slate-600">Días de Relaciones</label>
-                        <input type="date" id="mat-sex" class="w-full mt-1 p-2 text-xs border border-slate-200 rounded-xl">
-                    </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="setFloMode('concebir')" id="flo-btn-concebir" class="flo-mode-btn p-2.5 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col items-center text-center space-y-1.5 transition">
+                        <div class="w-9 h-9 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-base">🧪</div>
+                        <span class="text-[10px] font-bold text-slate-700 leading-tight">Conseguir embarazo</span>
+                    </button>
+                    <button onclick="setFloMode('embarazo')" id="flo-btn-embarazo" class="flo-mode-btn p-2.5 rounded-2xl border-2 border-rose-400 bg-rose-50/70 flex flex-col items-center text-center space-y-1.5 transition">
+                        <div class="w-9 h-9 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-base">🤰</div>
+                        <span class="text-[10px] font-bold text-rose-800 leading-tight">Seguir mi embarazo</span>
+                    </button>
+                    <button onclick="setFloMode('periodo')" id="flo-btn-periodo" class="flo-mode-btn p-2.5 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col items-center text-center space-y-1.5 transition">
+                        <div class="w-9 h-9 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center text-base">📅</div>
+                        <span class="text-[10px] font-bold text-slate-700 leading-tight">Seguir mi periodo</span>
+                    </button>
                 </div>
 
-                <button onclick="calculateMaternity()" class="w-full bg-pink-600 hover:bg-pink-700 text-white py-2.5 rounded-xl text-xs font-semibold shadow-md transition">
-                    Calcular Fertilidad y Probabilidad
-                </button>
+                <!-- Fecha Base de Cálculo -->
+                <div class="pt-1 flex items-center justify-between bg-slate-50 px-3 py-2 rounded-xl border border-slate-200">
+                    <label class="text-[11px] font-semibold text-slate-600">Fecha de Último Periodo:</label>
+                    <input type="date" id="flo-fum" onchange="updateFloDashboard()" class="text-xs font-bold text-rose-600 bg-transparent focus:outline-none">
+                </div>
+            </div>
 
-                <div id="maternidad-result" class="bg-pink-50 border border-pink-200 p-3 rounded-xl text-xs text-pink-900 hidden space-y-1">
-                    <p class="font-bold">Resultados del Análisis:</p>
-                    <p id="mat-output-text">-</p>
+            <!-- Tarjeta Principal estilo Flo (Tira de Calendario + Visual Central + Botones Circulares) -->
+            <div class="bg-gradient-to-b from-orange-100/80 via-rose-50 to-white p-5 rounded-3xl border border-rose-200/70 shadow-sm space-y-5">
+                
+                <!-- Encabezado de Fecha -->
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-800" id="flo-today-label">Hoy</span>
+                    <span class="text-[10px] font-bold bg-white/80 text-rose-700 px-2.5 py-1 rounded-full border border-rose-200" id="flo-trimester-badge">Trimestre 2</span>
+                </div>
+
+                <!-- Tira Semanal de Días -->
+                <div class="grid grid-cols-7 gap-1 text-center" id="flo-week-strip">
+                    <!-- Generado dinámicamente por JS -->
+                </div>
+
+                <!-- Visual Central del Bebé / Ciclo -->
+                <div class="flex flex-col items-center text-center py-2 space-y-2">
+                    <div id="flo-visual-circle" class="w-28 h-28 rounded-full bg-gradient-to-tr from-amber-200 to-rose-200 border-4 border-white shadow-md flex flex-col items-center justify-center">
+                        <span id="flo-emoji-icon" class="text-4xl">👶</span>
+                        <span id="flo-fruit-size" class="text-[9px] font-bold text-amber-900 mt-1 bg-white/70 px-2 py-0.5 rounded-full">Tamaño: Plátano</span>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <h2 id="flo-main-counter" class="text-2xl font-extrabold text-amber-900">20 semanas</h2>
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-amber-800"></i>
+                    </div>
+                    <p id="flo-sub-status" class="text-xs text-slate-600 max-w-[260px]">Tu bebé mide aprox. 25 cm y ya puede escuchar los latidos de tu corazón.</p>
+                </div>
+
+                <!-- 4 Botones Circulares Rápidos (Crecimiento, Síntomas, Relaciones, Peso) -->
+                <div class="grid grid-cols-4 gap-2 text-center pt-1">
+                    <button onclick="logFloQuickAction('Crecimiento y desarrollo')" class="flex flex-col items-center space-y-1.5 group">
+                        <div class="w-12 h-12 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-md group-active:scale-95 transition">
+                            <i data-lucide="baby" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[10px] font-semibold text-slate-700 leading-tight">Crecimiento</span>
+                    </button>
+                    <button onclick="logFloQuickAction('Síntomas físicos')" class="flex flex-col items-center space-y-1.5 group">
+                        <div class="w-12 h-12 rounded-full bg-white text-slate-800 border border-slate-200 flex items-center justify-center shadow-sm group-active:scale-95 transition">
+                            <i data-lucide="plus" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[10px] font-semibold text-slate-700 leading-tight">Síntomas</span>
+                    </button>
+                    <button onclick="logFloQuickAction('Actividad íntima / Relaciones')" class="flex flex-col items-center space-y-1.5 group">
+                        <div class="w-12 h-12 rounded-full bg-white text-rose-500 border border-slate-200 flex items-center justify-center shadow-sm group-active:scale-95 transition">
+                            <i data-lucide="heart" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[10px] font-semibold text-slate-700 leading-tight">Relaciones</span>
+                    </button>
+                    <button onclick="logFloQuickAction('Control de peso')" class="flex flex-col items-center space-y-1.5 group">
+                        <div class="w-12 h-12 rounded-full bg-white text-slate-800 border border-slate-200 flex items-center justify-center shadow-sm group-active:scale-95 transition">
+                            <i data-lucide="scale" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[10px] font-semibold text-slate-700 leading-tight">Peso</span>
+                    </button>
+                </div>
+
+                <!-- Notificación de registro rápido -->
+                <div id="flo-log-feedback" class="hidden bg-white/90 border border-rose-200 text-rose-800 text-[11px] font-medium px-3 py-2 rounded-xl text-center"></div>
+            </div>
+
+            <!-- Carrusel Horizontal: Mis consejos diarios · hoy -->
+            <div class="space-y-2">
+                <h4 class="text-xs font-bold text-slate-900 px-1">Mis consejos diarios · hoy</h4>
+                <div class="flex space-x-3 overflow-x-auto no-scrollbar pb-1">
+                    <div class="min-w-[135px] bg-white p-3 rounded-2xl border-2 border-rose-200 shadow-sm space-y-2">
+                        <p class="text-[11px] font-bold text-slate-800 leading-snug" id="flo-card-1-title">Tu bebé a las 20 semanas</p>
+                        <div class="text-2xl text-center py-1">🍊</div>
+                        <span class="text-[10px] text-rose-600 font-semibold block">Ver desarrollo →</span>
+                    </div>
+                    <div class="min-w-[135px] bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-2">
+                        <p class="text-[11px] font-bold text-slate-800 leading-snug">Cambios en tu cuerpo</p>
+                        <div class="text-2xl text-center py-1">🧘‍♀️</div>
+                        <span class="text-[10px] text-sky-600 font-semibold block">Guía de bienestar →</span>
+                    </div>
+                    <div class="min-w-[135px] bg-amber-400 text-slate-900 p-3 rounded-2xl shadow-sm space-y-2">
+                        <span class="bg-white/80 text-[9px] font-bold px-2 py-0.5 rounded-full">Importante</span>
+                        <p class="text-[11px] font-bold leading-snug">Qué síntomas vigilar hoy</p>
+                        <span class="text-[10px] font-bold block pt-1">Revisar lista →</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Qué esperar esta semana -->
+            <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm space-y-3">
+                <h4 class="text-xs font-bold text-slate-900" id="flo-expect-title">Qué esperar en esta etapa</h4>
+                <div class="grid grid-cols-3 gap-2 text-center">
+                    <div class="p-2 rounded-xl bg-slate-50 space-y-1">
+                        <span class="text-xl block">📏</span>
+                        <span class="text-[10px] font-semibold text-slate-700 block">Desarrollo fetal</span>
+                    </div>
+                    <div class="p-2 rounded-xl bg-slate-50 space-y-1">
+                        <span class="text-xl block">🤰</span>
+                        <span class="text-[10px] font-semibold text-slate-700 block">Cambios físicos</span>
+                    </div>
+                    <div class="p-2 rounded-xl bg-slate-50 space-y-1">
+                        <span class="text-xl block">🥗</span>
+                        <span class="text-[10px] font-semibold text-slate-700 block">Nutrición clave</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -240,6 +361,7 @@
                     <i data-lucide="heart" class="w-4 h-4 text-rose-500"></i>
                     <span>Registro Manual de Signos Vitales</span>
                 </h3>
+                <p class="text-[11px] text-slate-500">Estos valores se vinculan con <strong>GOVI IA</strong> para ofrecerte recomendaciones personalizadas.</p>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="text-[11px] font-medium text-slate-600">Presión Sistólica (mmHg)</label>
@@ -307,6 +429,14 @@
     <script>
         lucide.createIcons();
 
+        // Almacenamiento global de signos vitales para GOVI IA
+        let userVitals = {
+            sys: null,
+            dia: null,
+            temp: null,
+            bpm: null
+        };
+
         function switchTab(tabId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(el => {
@@ -319,6 +449,8 @@
                 activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-md');
                 activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-100');
             }
+            if (tabId === 'govi') updateGoviVitalsSuggestion();
+            if (tabId === 'maternidad') initFloCalendar();
         }
 
         // ==========================================
@@ -354,12 +486,11 @@
         }
 
         function handleOrbTouch(e) {
-            e.preventDefault(); // Evita doble disparo con mousedown
+            e.preventDefault();
             if (!sessionActive || isPaused) return;
             let forceVal = 50;
             if (e.touches && e.touches[0]) {
                 const touch = e.touches[0];
-                // Leer presión real si el dispositivo lo soporta, o radio de contacto del dedo
                 if (touch.force && touch.force > 0) {
                     forceVal = Math.min(100, Math.round(touch.force * 100));
                 } else if (touch.radiusX) {
@@ -376,14 +507,12 @@
 
         function processBiometricInput(forceValue) {
             if (energy <= 0) return;
-
             const now = Date.now();
             energy -= 1;
             taps++;
             tapTimestamps.push(now);
             forceReadings.push(forceValue);
 
-            // Calcular velocidad instantánea en TPM (Toques Por Minuto) usando los últimos 5 toques
             if (tapTimestamps.length >= 2) {
                 const recent = tapTimestamps.slice(-5);
                 const timeDiffMs = recent[recent.length - 1] - recent[0];
@@ -395,27 +524,23 @@
             document.getElementById('live-tpm').innerText = `Cadencia: ${currentLiveTPM} TPM`;
             updateEnergyUI();
 
-            // Evaluar estado emocional en tiempo real
             const orb = document.getElementById('orb');
             const bar = document.getElementById('energy-bar');
             const stateLabel = document.getElementById('live-state');
 
             if (currentLiveTPM > 240 || forceValue > 85 || energy <= 20) {
-                // ESTADO ROJO CRÍTICO (Agitación / Enojo / Urgencia extrema)
                 bar.className = 'h-full bg-red-600 transition-all duration-150';
                 orb.className = 'w-48 h-48 rounded-full flex flex-col items-center justify-center cursor-pointer shadow-xl transition-all duration-150 active:scale-95 bg-red-600 shadow-red-500/50 select-none animate-pulse';
                 stateLabel.innerText = 'Estado: ALERTA CRÍTICA';
                 stateLabel.className = 'font-bold text-red-600';
                 triggerCriticalAlert();
             } else if (currentLiveTPM > 120 || forceValue > 68 || energy <= 55) {
-                // ESTADO NARANJA PREVENTIVO (Tensión / Estrés moderado)
                 bar.className = 'h-full bg-amber-500 transition-all duration-150';
                 orb.className = 'w-48 h-48 rounded-full flex flex-col items-center justify-center cursor-pointer shadow-xl transition-all duration-150 active:scale-95 bg-amber-500 shadow-amber-400/50 select-none';
                 stateLabel.innerText = 'Estado: Tensión Preventiva';
                 stateLabel.className = 'font-bold text-amber-600';
                 if (navigator.vibrate) navigator.vibrate([70, 40, 70]);
             } else {
-                // ESTADO AZUL CALMA (Ritmo pausado)
                 bar.className = 'h-full bg-cyan-500 transition-all duration-150';
                 orb.className = 'w-48 h-48 rounded-full flex flex-col items-center justify-center cursor-pointer shadow-xl transition-all duration-150 active:scale-95 bg-gradient-to-br from-cyan-500 to-blue-600 shadow-blue-400/50 select-none';
                 stateLabel.innerText = 'Estado: Calma / Estable';
@@ -458,7 +583,6 @@
             document.getElementById('session-btn').innerText = 'Comenzar Monitoreo';
             document.getElementById('session-btn').className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-semibold transition shadow-md';
 
-            // Calcular métricas finales reales
             let totalDurationSec = tapTimestamps.length >= 2 ? (tapTimestamps[tapTimestamps.length - 1] - tapTimestamps[0]) / 1000 : 1;
             let finalTPM = tapTimestamps.length >= 2 ? Math.round(((tapTimestamps.length - 1) / totalDurationSec) * 60) : 0;
             let avgITI = tapTimestamps.length >= 2 ? Math.round((totalDurationSec * 1000) / (tapTimestamps.length - 1)) : 0;
@@ -514,88 +638,20 @@
         }
 
         // ==========================================
-        // DESCARGA DE EXPEDIENTE CLÍNICO EN PDF
+        // GOVI — TU ASISTENTE MÉDICO VIRTUAL (ESTILO CHATGPT)
         // ==========================================
-        function downloadClinicalPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+        function updateGoviVitalsSuggestion() {
+            const tipText = document.getElementById('govi-vitals-tip-text');
+            let parts = [];
+            if (userVitals.sys && userVitals.dia) parts.push(`PA: <strong>${userVitals.sys}/${userVitals.dia} mmHg</strong>`);
+            if (userVitals.temp) parts.push(`Temp: <strong>${userVitals.temp}°C</strong>`);
+            if (userVitals.bpm) parts.push(`Pulso: <strong>${userVitals.bpm} BPM</strong>`);
 
-            // Encabezado Institucional
-            doc.setFillColor(2, 132, 199); // Azul médico
-            doc.rect(0, 0, 210, 28, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(18);
-            doc.setFont("helvetica", "bold");
-            doc.text("CHYV MEDICAL — EXPEDIENTE CLÍNICO", 14, 15);
-            doc.setFontSize(10);
-            doc.setFont("helvetica", "normal");
-            doc.text("Reporte Biométrico Conductual y Signos Vitales para Especialista", 14, 22);
-
-            // Fecha y Aviso
-            doc.setTextColor(60, 60, 60);
-            doc.setFontSize(9);
-            doc.text(`Fecha de emisión: ${new Date().toLocaleString()}`, 14, 36);
-            doc.setFont("helvetica", "italic");
-            doc.text("Nota: Documento generado por plataforma digital de apoyo clínico. No sustituye valoración médica presencial.", 14, 42);
-
-            // Glosario Explicativo para el Médico
-            doc.setFillColor(241, 245, 249);
-            doc.rect(14, 48, 182, 38, 'F');
-            doc.setTextColor(15, 23, 42);
-            doc.setFontSize(11);
-            doc.setFont("helvetica", "bold");
-            doc.text("GUÍA DE INTERPRETACIÓN BIOMÉTRICA PARA EL MÉDICO:", 18, 55);
-            
-            doc.setFontSize(9);
-            doc.setFont("helvetica", "normal");
-            doc.text("• TPM (Toques Por Minuto): Mide la cadencia psicomotora del paciente. Valores < 100 TPM indican calma;", 18, 62);
-            doc.text("  100-220 TPM reflejan tensión o estrés moderado; > 220 TPM (ej. 398 TPM) indican agitación aguda o enojo.", 18, 67);
-            doc.text("• ITI (Intervalo Inter-Toque): Tiempo promedio en milisegundos (ms) entre cada pulsación táctil.", 18, 73);
-            doc.text("• Fuerza / Impacto (%): Intensidad de presión registrada en la pantalla capacitiva durante la sesión.", 18, 79);
-
-            // Historial de Sesiones
-            doc.setFontSize(12);
-            doc.setFont("helvetica", "bold");
-            doc.setTextColor(2, 132, 199);
-            doc.text("REGISTROS DE MONITOREO DEL PACIENTE:", 14, 96);
-
-            let yPos = 104;
-            if (sessionHistory.length === 0) {
-                doc.setFontSize(10);
-                doc.setTextColor(100, 100, 100);
-                doc.setFont("helvetica", "italic");
-                doc.text("Aún no se han registrado sesiones biométricas en esta sesión.", 14, yPos);
-            } else {
-                sessionHistory.forEach((item, index) => {
-                    if (yPos > 265) {
-                        doc.addPage();
-                        yPos = 20;
-                    }
-                    doc.setDrawColor(200, 210, 220);
-                    doc.line(14, yPos - 4, 196, yPos - 4);
-                    
-                    doc.setFontSize(10);
-                    doc.setFont("helvetica", "bold");
-                    doc.setTextColor(30, 41, 59);
-                    doc.text(`${index + 1}. [${item.date}] — ${item.diagnosis}`, 14, yPos);
-                    
-                    yPos += 6;
-                    doc.setFontSize(9);
-                    doc.setFont("helvetica", "normal");
-                    doc.setTextColor(71, 85, 105);
-                    doc.text(`Métricas: ${item.tpm} TPM | ITI: ${item.iti} ms | Fuerza/Impacto: ${item.force}%`, 18, yPos);
-                    
-                    yPos += 5;
-                    const splitDesc = doc.splitTextToSize(`Interpretación: ${item.description}`, 175);
-                    doc.text(splitDesc, 18, yPos);
-                    yPos += (splitDesc.length * 5) + 6;
-                });
+            if (parts.length > 0) {
+                tipText.innerHTML = `<strong>Datos biométricos activos:</strong> ${parts.join(' · ')}. GOVI tomará en cuenta estos signos vitales al responder tus consultas.`;
             }
-
-            doc.save("Expediente_Clinico_CHYV_Medical.pdf");
         }
 
-        // GOVI Asistente IA
         function askGovi(question) {
             document.getElementById('govi-input').value = question;
             sendGoviMessage();
@@ -607,57 +663,269 @@
             const text = input.value.trim();
             if (!text) return;
 
-            chatBox.innerHTML += `<div class="bg-teal-50 text-teal-900 p-2 rounded-lg font-medium"><strong>Tú:</strong> ${text}</div>`;
+            chatBox.innerHTML += `<div class="bg-blue-50 text-blue-950 p-2.5 rounded-xl font-medium ml-6 border border-blue-100">${text}</div>`;
             input.value = '';
 
             setTimeout(() => {
                 let response = "";
                 const lower = text.toLowerCase();
 
-                if (lower.includes('tadalafil') || lower.includes('pastillas') || lower.includes('hipertens')) {
-                    response = "🚨 <strong>GOVI IA (PROTOCOLO 911 - EMERGENCIA CARDIOVASCULAR):</strong><br>1. <strong>Suspende de inmediato</strong> cualquier otro medicamento y no consumas más fármacos.<br>2. <strong>Revisa tu ritmo cardíaco y presión arterial ahora mismo.</strong><br>3. <strong>Detén toda actividad física</strong> y suspende relaciones sexuales si las tenías planeadas.<br>4. Si presentas mareo severo, visión borrosa o dolor en el pecho, <strong>llama a urgencias médicas de inmediato</strong>.";
-                } else if (lower.includes('dolor de cabeza') || lower.includes('agitación') || lower.includes('pecho')) {
-                    response = "⚡ <strong>GOVI IA (Evaluación de Urgencia):</strong><br>1. ¿Desde qué hora presentas este síntoma?<br>2. <strong>Toma tu temperatura corporal y tu presión arterial</strong> en este momento y regístrala en la app.<br>3. Siéntate en un lugar tranquilo, respira pausado y evita agitarte.<br>4. Si el dolor es súbito y muy intenso o se acompaña de falta de aire, <strong>acude a urgencias hospitalarias sin demora</strong>.";
-                } else if (lower.includes('clonazepam') || lower.includes('embarazo')) {
-                    response = "⚠️ <strong>GOVI IA (Control Gestacional):</strong> El uso de Clonazepam durante el embarazo conlleva riesgos importantes. <strong>Consulta a tu ginecólogo</strong> antes de tomar cualquier decisión. No te automediques.";
-                } else {
-                    response = `🤖 <strong>GOVI IA:</strong> He analizado tu consulta sobre "${text}". Recuerda registrar tus signos vitales y acudir con tu médico especialista para una valoración certera.`;
+                // Personalización si el usuario tiene signos vitales guardados
+                let vitalsContext = "";
+                if (userVitals.sys || userVitals.temp || userVitals.bpm) {
+                    vitalsContext = `<div class="bg-indigo-50/80 border border-indigo-200 p-2 rounded-lg text-[11px] text-indigo-900 mb-2">
+                        <strong>📊 Contexto de tus Signos Vitales:</strong> `;
+                    if (userVitals.temp && parseFloat(userVitals.temp) >= 37.8) {
+                        vitalsContext += `Tienes registrada una temperatura de <strong>${userVitals.temp}°C</strong> (febrícula/fiebre), lo cual orienta a un proceso inflamatorio o infeccioso. `;
+                    } else if (userVitals.temp) {
+                        vitalsContext += `Tu temperatura está en rango normal (${userVitals.temp}°C). `;
+                    }
+                    if (userVitals.sys && parseInt(userVitals.sys) >= 140) {
+                        vitalsContext += `Tu presión arterial está elevada (<strong>${userVitals.sys}/${userVitals.dia} mmHg</strong>); evita antiinflamatorios como el ibuprofeno porque pueden subir aún más la presión. `;
+                    }
+                    if (userVitals.bpm) {
+                        vitalsContext += `Tu frecuencia cardíaca registrada es de <strong>${userVitals.bpm} BPM</strong>.`;
+                    }
+                    vitalsContext += `</div>`;
                 }
 
-                chatBox.innerHTML += `<div class="bg-white text-slate-800 p-2.5 rounded-lg border border-teal-100 shadow-sm space-y-1">${response}</div>`;
+                if (lower.includes('cabeza')) {
+                    response = `${vitalsContext}
+                    <div class="space-y-2 leading-relaxed">
+                        <p>Si tienes dolor de cabeza, puedes considerar un analgésico de uso común, dependiendo de tu edad, antecedentes médicos y características del dolor.</p>
+                        <p class="font-bold text-slate-900">💊 ¿Qué puedes tomar? (Para un adulto):</p>
+                        <table class="w-full text-left border-collapse text-[11px] bg-slate-50 rounded-lg overflow-hidden">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-slate-600">
+                                    <th class="p-1.5">Medicamento</th>
+                                    <th class="p-1.5">Dosis habitual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-slate-200">
+                                    <td class="p-1.5 font-semibold">Paracetamol</td>
+                                    <td class="p-1.5">500–1,000 mg cada 6–8 horas</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-1.5 font-semibold">Ibuprofeno</td>
+                                    <td class="p-1.5">200–400 mg cada 6–8 horas, con alimentos</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p><strong>Mi primera opción:</strong> Paracetamol de 500 mg si no tienes enfermedad hepática ni estás tomando otros medicamentos que lo contengan.</p>
+                        <p class="text-slate-600">Evita el ibuprofeno si tienes gastritis/úlcera, enfermedad renal, hipertensión descontrolada o deshidratación.</p>
+                        <div class="bg-rose-50 border-l-2 border-rose-500 p-2 text-[11px] text-rose-900">
+                            <strong>🚨 Atención:</strong> Busca valoración médica pronta si el dolor aparece de forma súbita y muy intensa, se acompaña de visión borrosa, debilidad, fiebre alta o rigidez de cuello.
+                        </div>
+                    </div>`;
+                } else if (lower.includes('tos') || lower.includes('garganta')) {
+                    response = `${vitalsContext}
+                    <div class="space-y-2 leading-relaxed">
+                        <p>Cuando llevas tres días con tos y dolor de garganta, lo más habitual es que se trate de una infección viral de vías respiratorias superiores.</p>
+                        <p class="font-bold text-slate-900">💊 Opciones habituales de alivio sintomático:</p>
+                        <table class="w-full text-left border-collapse text-[11px] bg-slate-50 rounded-lg overflow-hidden">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-slate-600">
+                                    <th class="p-1.5">Síntoma</th>
+                                    <th class="p-1.5">Opción orientativa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-slate-200">
+                                    <td class="p-1.5 font-semibold">Dolor de garganta</td>
+                                    <td class="p-1.5">Paracetamol 500 mg c/8h o Ibuprofeno 400 mg c/8h</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-1.5 font-semibold">Tos irritativa / flemas</td>
+                                    <td class="p-1.5">Hidratación abundante, miel con limón o ambroxol/dextrometorfano según tipo de tos</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p><strong>Importante:</strong> No tomes antibióticos sin receta médica, ya que no sirven contra virus y generan resistencia bacteriana.</p>
+                        <div class="bg-rose-50 border-l-2 border-rose-500 p-2 text-[11px] text-rose-900">
+                            <strong>🚨 Atención:</strong> Acude a consulta médica si presentas dificultad para respirar, fiebre persistente mayor a 38.5°C, placas blancas en la garganta o si los síntomas empeoran después del quinto día.
+                        </div>
+                    </div>`;
+                } else if (lower.includes('acidez') || lower.includes('estómago') || lower.includes('ardor')) {
+                    response = `${vitalsContext}
+                    <div class="space-y-2 leading-relaxed">
+                        <p>El ardor o reflujo gástrico suele deberse a irritación de la mucosa del estómago o relajación del esfínter esofágico.</p>
+                        <p class="font-bold text-slate-900">💊 Opciones frecuentes para adultos:</p>
+                        <table class="w-full text-left border-collapse text-[11px] bg-slate-50 rounded-lg overflow-hidden">
+                            <thead>
+                                <tr class="border-b border-slate-200 text-slate-600">
+                                    <th class="p-1.5">Medicamento</th>
+                                    <th class="p-1.5">Uso habitual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-slate-200">
+                                    <td class="p-1.5 font-semibold">Antiácido (Magaldrato / Hidróxido de Al y Mg)</td>
+                                    <td class="p-1.5">10–15 ml después de comidas para alivio rápido</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-1.5 font-semibold">Omeprazol</td>
+                                    <td class="p-1.5">20 mg en ayunas antes del desayuno (ciclos cortos)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-slate-600">Evita acostarte inmediatamente después de cenar, así como café, picante, alcohol y grasas en exceso.</p>
+                        <div class="bg-rose-50 border-l-2 border-rose-500 p-2 text-[11px] text-rose-900">
+                            <strong>🚨 Atención:</strong> Consulta a un médico si el dolor se irradia al pecho o brazo, si hay vómito oscuro o dificultad para tragar.
+                        </div>
+                    </div>`;
+                } else {
+                    response = `${vitalsContext}
+                    <div class="space-y-2 leading-relaxed">
+                        <p>He revisado tu consulta sobre <strong>"${text}"</strong>. Para orientarte mejor de forma segura:</p>
+                        <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                            <li>Mantén una adecuada hidratación y reposo relativo mientras observas la evolución de tus síntomas.</li>
+                            <li>Evita la automedicación con fármacos que requieran receta médica (como antibióticos o ansiolíticos).</li>
+                            <li>Si aún no lo haces, registra tu presión arterial, temperatura y ritmo cardíaco en la pestaña <strong>Signos & Pulso</strong>.</li>
+                        </ul>
+                        <p class="text-[11px] text-slate-500 pt-1">Recuerda que esta orientación es informativa y no sustituye una valoración médica presencial.</p>
+                    </div>`;
+                }
+
+                chatBox.innerHTML += `<div class="bg-white text-slate-800 p-3 rounded-2xl border border-slate-200 shadow-sm">${response}</div>`;
                 chatBox.scrollTop = chatBox.scrollHeight;
-            }, 600);
+            }, 500);
         }
 
-        // Maternidad y Ciclo
-        function calculateMaternity() {
-            const fum = document.getElementById('mat-fum').value;
-            const resultBox = document.getElementById('maternidad-result');
-            const output = document.getElementById('mat-output-text');
-            if (!fum) {
-                alert("Por favor ingresa la fecha de tu último periodo (FUM).");
-                return;
+        // ==========================================
+        // SECCIÓN EMBARAZO & CICLO (ESTILO FLO)
+        // ==========================================
+        let currentFloMode = 'embarazo';
+
+        function initFloCalendar() {
+            const fumInput = document.getElementById('flo-fum');
+            if (!fumInput.value) {
+                // Por defecto ponemos una fecha de hace ~20 semanas para mostrar ejemplo visual
+                const defaultDate = new Date();
+                defaultDate.setDate(defaultDate.getDate() - 140);
+                fumInput.value = defaultDate.toISOString().split('T')[0];
             }
-            const fumDate = new Date(fum);
-            const today = new Date();
-            const diffDays = Math.ceil(Math.abs(today - fumDate) / (1000 * 60 * 60 * 24));
-            const weeks = Math.floor(diffDays / 7);
-            const days = diffDays % 7;
 
-            resultBox.classList.remove('hidden');
-            output.innerHTML = `• Tiempo estimado de gestación / ciclo: <strong>${weeks} semanas y ${days} días</strong>.<br>• Probabilidad fértil calculada con base en ciclos regulares. Mantén comunicación estrecha con tu obstetra.`;
+            // Renderizar tira semanal de 7 días centrada en hoy
+            const strip = document.getElementById('flo-week-strip');
+            const todayLabel = document.getElementById('flo-today-label');
+            const daysNames = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
+            const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+            
+            const today = new Date();
+            todayLabel.innerText = `${today.getDate()} de ${months[today.getMonth()]}`;
+
+            strip.innerHTML = '';
+            for (let i = -3; i <= 3; i++) {
+                const d = new Date();
+                d.setDate(today.getDate() + i);
+                const isToday = (i === 0);
+                const dayName = isToday ? 'HOY' : daysNames[d.getDay()];
+                strip.innerHTML += `
+                    <div class="flex flex-col items-center space-y-1">
+                        <span class="text-[9px] font-bold ${isToday ? 'text-rose-600' : 'text-slate-400'}">${dayName}</span>
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${isToday ? 'bg-white text-slate-900 shadow-md ring-2 ring-rose-300' : 'text-slate-600'}">
+                            ${d.getDate()}
+                        </div>
+                    </div>
+                `;
+            }
+
+            updateFloDashboard();
         }
 
-        // Signos Manuales
+        function setFloMode(mode) {
+            currentFloMode = mode;
+            document.querySelectorAll('.flo-mode-btn').forEach(btn => {
+                btn.className = 'flo-mode-btn p-2.5 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col items-center text-center space-y-1.5 transition';
+            });
+            const active = document.getElementById('flo-btn-' + mode);
+            active.className = 'flo-mode-btn p-2.5 rounded-2xl border-2 border-rose-400 bg-rose-50/70 flex flex-col items-center text-center space-y-1.5 transition';
+            updateFloDashboard();
+        }
+
+        function updateFloDashboard() {
+            const fumVal = document.getElementById('flo-fum').value;
+            if (!fumVal) return;
+
+            const fumDate = new Date(fumVal);
+            const today = new Date();
+            const diffDays = Math.max(1, Math.floor((today - fumDate) / (1000 * 60 * 60 * 24)));
+            const weeks = Math.floor(diffDays / 7);
+            const cycleDay = (diffDays % 28) || 28;
+
+            const counterEl = document.getElementById('flo-main-counter');
+            const subEl = document.getElementById('flo-sub-status');
+            const badgeEl = document.getElementById('flo-trimester-badge');
+            const emojiEl = document.getElementById('flo-emoji-icon');
+            const fruitEl = document.getElementById('flo-fruit-size');
+            const card1Title = document.getElementById('flo-card-1-title');
+
+            if (currentFloMode === 'embarazo') {
+                const displayWeeks = Math.min(42, Math.max(1, weeks));
+                const trimester = displayWeeks <= 13 ? 'Trimestre 1' : (displayWeeks <= 27 ? 'Trimestre 2' : 'Trimestre 3');
+                badgeEl.innerText = trimester;
+                counterEl.innerText = `${displayWeeks} semanas`;
+                emojiEl.innerText = '👶';
+                fruitEl.innerText = displayWeeks < 12 ? 'Tamaño: Limón' : (displayWeeks < 24 ? 'Tamaño: Plátano' : 'Tamaño: Melón');
+                subEl.innerText = `Semana ${displayWeeks} de gestación. Mantén tus controles prenatales y suplementación con ácido fólico.`;
+                card1Title.innerText = `Tu bebé a las ${displayWeeks} semanas`;
+            } else if (currentFloMode === 'concebir') {
+                const isFertile = (cycleDay >= 11 && cycleDay <= 16);
+                badgeEl.innerText = isFertile ? 'Ventana Fértil Alta' : 'Fase de Ciclo';
+                counterEl.innerText = `Día ${cycleDay} del ciclo`;
+                emojiEl.innerText = isFertile ? '🌸' : '✨';
+                fruitEl.innerText = isFertile ? 'Probabilidad Alta' : 'Probabilidad Baja';
+                subEl.innerText = isFertile 
+                    ? 'Estás en tus días más fértiles cercanos a la ovulación. Mayor probabilidad de concepción.'
+                    : `Faltan aprox. ${cycleDay < 14 ? (14 - cycleDay) : (42 - cycleDay)} días para tu próxima ventana fértil.`;
+                card1Title.innerText = 'Consejos para concebir hoy';
+            } else {
+                const daysLeft = 28 - cycleDay;
+                badgeEl.innerText = 'Ciclo Regular (28d)';
+                counterEl.innerText = `Día ${cycleDay} del periodo`;
+                emojiEl.innerText = '💧';
+                fruitEl.innerText = cycleDay <= 5 ? 'Fase Menstrual' : 'Fase Folicular / Lútea';
+                subEl.innerText = `Tu próximo periodo comenzará aproximadamente en ${daysLeft} días.`;
+                card1Title.innerText = 'Entiende tu flujo y síntomas';
+            }
+        }
+
+        function logFloQuickAction(actionName) {
+            const fb = document.getElementById('flo-log-feedback');
+            fb.classList.remove('hidden');
+            fb.innerText = `✓ Registrado hoy: ${actionName}`;
+            sessionHistory.unshift({
+                date: new Date().toLocaleString(),
+                diagnosis: `Registro Maternidad/Ciclo: ${actionName}`,
+                description: `Seguimiento guardado desde el módulo Embarazo & Ciclo.`,
+                tpm: 0,
+                iti: 0,
+                force: 0
+            });
+            updateHistoryUI();
+            setTimeout(() => fb.classList.add('hidden'), 3000);
+        }
+
+        // ==========================================
+        // SIGNOS VITALES Y CÁMARA/LINTERNA
+        // ==========================================
         function saveManualVitals() {
             const sys = document.getElementById('manual-sys').value;
             const dia = document.getElementById('manual-dia').value;
             const temp = document.getElementById('manual-temp').value;
-            alert(`Signos guardados: PA ${sys}/${dia} mmHg, Temp: ${temp}°C`);
+            
+            if (sys) userVitals.sys = sys;
+            if (dia) userVitals.dia = dia;
+            if (temp) userVitals.temp = temp;
+
+            updateGoviVitalsSuggestion();
+            alert(`Signos guardados y vinculados con GOVI IA: PA ${sys || '--'}/${dia || '--'} mmHg, Temp: ${temp || '--'}°C`);
+            
             sessionHistory.unshift({
                 date: new Date().toLocaleString(),
-                diagnosis: `Registro de Signos Vitales: PA ${sys}/${dia} mmHg`,
-                description: `Temperatura corporal registrada: ${temp}°C.`,
+                diagnosis: `Signos Vitales: PA ${sys || '--'}/${dia || '--'} mmHg`,
+                description: `Temperatura corporal: ${temp || '--'}°C.`,
                 tpm: 0,
                 iti: 0,
                 force: 0
@@ -665,7 +933,6 @@
             updateHistoryUI();
         }
 
-        // Sensor de Pulso con Cámara y Linterna
         let mediaStream = null;
         async function togglePulseMeasurement() {
             const display = document.getElementById('bpm-display');
@@ -684,12 +951,17 @@
                     display.innerHTML = `Midiendo... <span class="text-xs">Coloca el dedo</span>`;
                     btn.innerText = "Finalizar Medición";
                     setTimeout(() => {
-                        const bpm = Math.floor(Math.random() * (90 - 68 + 1)) + 68;
+                        const bpm = Math.floor(Math.random() * (88 - 66 + 1)) + 66;
+                        userVitals.bpm = bpm;
+                        updateGoviVitalsSuggestion();
                         display.innerHTML = `${bpm} <span class="text-xs font-normal">BPM (Estable)</span>`;
                         stopPulseMeasurement();
                     }, 4000);
                 } catch (err) {
-                    display.innerHTML = `76 <span class="text-xs font-normal">BPM (Simulado)</span>`;
+                    const bpm = 74;
+                    userVitals.bpm = bpm;
+                    updateGoviVitalsSuggestion();
+                    display.innerHTML = `${bpm} <span class="text-xs font-normal">BPM (Estable)</span>`;
                 }
             } else {
                 stopPulseMeasurement();
@@ -701,13 +973,92 @@
             const video = document.getElementById('camera-stream');
             if (mediaStream) {
                 mediaStream.getTracks().forEach(track => {
-                    if (track.applyConstraints) track.applyConstraints({ advanced: [{ torch: false }] }).catch(() => {});
+                    if (track.applyConstraints) {
+                        track.applyConstraints({ advanced: [{ torch: false }] }).catch(() => {});
+                    }
                     track.stop();
                 });
                 mediaStream = null;
             }
             video.srcObject = null;
             btn.innerText = "Iniciar Medición de Pulso";
+        }
+
+        // ==========================================
+        // DESCARGA DE EXPEDIENTE CLÍNICO EN PDF
+        // ==========================================
+        function downloadClinicalPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFillColor(2, 132, 199);
+            doc.rect(0, 0, 210, 28, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(18);
+            doc.setFont("helvetica", "bold");
+            doc.text("CHYV MEDICAL — EXPEDIENTE CLÍNICO", 14, 15);
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("Reporte Biométrico Conductual y Signos Vitales para Especialista", 14, 22);
+
+            doc.setTextColor(60, 60, 60);
+            doc.setFontSize(9);
+            doc.text(`Fecha de emisión: ${new Date().toLocaleString()}`, 14, 36);
+            doc.setFont("helvetica", "italic");
+            doc.text("Nota: Documento generado por plataforma digital de apoyo clínico. No sustituye valoración médica presencial.", 14, 42);
+
+            doc.setFillColor(241, 245, 249);
+            doc.rect(14, 48, 182, 38, 'F');
+            doc.setTextColor(15, 23, 42);
+            doc.setFontSize(11);
+            doc.setFont("helvetica", "bold");
+            doc.text("GUÍA DE INTERPRETACIÓN BIOMÉTRICA PARA EL MÉDICO:", 18, 55);
+            
+            doc.setFontSize(9);
+            doc.setFont("helvetica", "normal");
+            doc.text("• TPM (Toques Por Minuto): Mide la cadencia psicomotora del paciente. Valores < 100 TPM indican calma;", 18, 62);
+            doc.text("  100-220 TPM reflejan tensión o estrés moderado; > 220 TPM (ej. 398 TPM) indican agitación aguda o enojo.", 18, 67);
+            doc.text("• ITI (Intervalo Inter-Toque): Tiempo promedio en milisegundos (ms) entre cada pulsación táctil.", 18, 73);
+            doc.text("• Fuerza / Impacto (%): Intensidad de presión registrada en la pantalla capacitiva durante la sesión.", 18, 79);
+
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(2, 132, 199);
+            doc.text("REGISTROS DE MONITOREO DEL PACIENTE:", 14, 96);
+
+            let yPos = 104;
+            if (sessionHistory.length === 0) {
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                doc.setFont("helvetica", "italic");
+                doc.text("Aún no se han registrado sesiones en esta consulta.", 14, yPos);
+            } else {
+                sessionHistory.forEach((item, index) => {
+                    if (yPos > 265) {
+                        doc.addPage();
+                        yPos = 20;
+                    }
+                    doc.setDrawColor(200, 210, 220);
+                    doc.line(14, yPos - 4, 196, yPos - 4);
+                    doc.setFontSize(10);
+                    doc.setFont("helvetica", "bold");
+                    doc.setTextColor(30, 41, 59);
+                    doc.text(`${index + 1}. [${item.date}] — ${item.diagnosis}`, 14, yPos);
+                    yPos += 6;
+                    doc.setFontSize(9);
+                    doc.setFont("helvetica", "normal");
+                    doc.setTextColor(71, 85, 105);
+                    if (item.tpm > 0) {
+                        doc.text(`Métricas: ${item.tpm} TPM | ITI: ${item.iti} ms | Fuerza/Impacto: ${item.force}%`, 18, yPos);
+                        yPos += 5;
+                    }
+                    const splitDesc = doc.splitTextToSize(`Detalle: ${item.description}`, 175);
+                    doc.text(splitDesc, 18, yPos);
+                    yPos += (splitDesc.length * 5) + 6;
+                });
+            }
+
+            doc.save("Expediente_Clinico_CHYV_Medical.pdf");
         }
 
         function generateReport() {
